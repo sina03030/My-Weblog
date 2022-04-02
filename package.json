@@ -12,8 +12,18 @@
   "author": "Sina Hejazi",
   "license": "MIT",
   "dependencies": {
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.0.0",
     "ejs": "^3.1.6",
     "express": "^4.17.3",
     "mongoose": "^6.2.9"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sina03030/My-Weblog.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sina03030/My-Weblog/issues"
+  },
+  "homepage": "https://github.com/sina03030/My-Weblog#readme"
 }
