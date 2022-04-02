@@ -5,14 +5,13 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./app.js",
-    "dev": "nodemon ./app.js"
+    "start": "cross-env NODE_ENV=production node app.js",
+    "dev": "cross-env NODE_ENV=development nodemon app.js"
   },
   "keywords": [],
   "author": "Sina Hejazi",
   "license": "MIT",
   "dependencies": {
-    "cross-env": "^7.0.3",
     "dotenv": "^16.0.0",
     "ejs": "^3.1.6",
     "express": "^4.17.3",
@@ -25,5 +24,8 @@
   "bugs": {
     "url": "https://github.com/sina03030/My-Weblog/issues"
   },
-  "homepage": "https://github.com/sina03030/My-Weblog#readme"
+  "homepage": "https://github.com/sina03030/My-Weblog#readme",
+  "devDependencies": {
+    "cross-env": "^7.0.3"
+  }
 }
