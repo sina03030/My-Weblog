@@ -5,9 +5,13 @@ const dotEnv = require('dotenv');
 const morgan = require('morgan');
 
 const indexRoutes = require('./routes');
+const connectDB = require('./config/db');
 
 // setting config.env files to system environemt variables
 dotEnv.config({ path: "./config/config.env" });
+
+// database connection 
+connectDB();
 
 const app = express();
 
