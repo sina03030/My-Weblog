@@ -5,7 +5,8 @@ const dotEnv = require('dotenv');
 const morgan = require('morgan');
 const expressLayoutes = require('express-ejs-layouts');
 
-const indexRoutes = require('./routes');
+const blogRoutes = require('./routes/blog');
+const dashRoutes = require('./routes/dashboard');
 const connectDB = require('./config/db');
 
 // setting config.env files to system environemt variables
@@ -33,7 +34,8 @@ app.set('views', 'views');
 app.use(express.static(path.join(__dirname, 'public')));
 
 //* routes
-app.use(indexRoutes);
+app.use(blogRoutes);
+app.use('/dashboard', dashRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`server is up and runnig in ${process.env.NODE_ENV} on port ${PORT}`));
