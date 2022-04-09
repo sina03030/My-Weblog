@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="/css/bootstrap-rtl.css">
     <% if(path === '/login' || path === '/register'){ %> 
         <link href="/css/signin-style.css" rel="stylesheet">
+    <% } %>
+    <% if(path === '/404'){ %> 
+        <link href="/css/404.css" rel="stylesheet">
     <% } %> 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>
@@ -17,6 +20,8 @@
 
 <body class="ltr">
     <%- body %> 
+    <script src="/js/jquery.slim.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
 </body>
 
 </html>

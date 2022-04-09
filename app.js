@@ -16,6 +16,7 @@ connectDB();
 const app = express();
 
 //* custom middleware
+app.use(express.urlencoded({ extended: false }));
 // logging
 if (process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'));
@@ -36,5 +37,9 @@ app.use(require('./routes/blog'));
 app.use('/dashboard', require('./routes/dashboard'));
 app.use('/users', require('./routes/users'));
 
+//* 404
+app.use((req, res) => {
+    res.render('404',{pageTitle: 'page not found',path: '/404'});
+});
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`server is up and runnig in ${process.env.NODE_ENV} on port ${PORT}`));
