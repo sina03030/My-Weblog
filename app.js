@@ -4,6 +4,8 @@ const express = require('express');
 const dotEnv = require('dotenv');
 const morgan = require('morgan');
 const expressLayoutes = require('express-ejs-layouts');
+const flash = require('connect-flash');
+const session = require('express-session');
 
 const connectDB = require('./config/db');
 
@@ -15,8 +17,9 @@ connectDB();
 
 const app = express();
 
-//* custom middleware
+//* body parser
 app.use(express.urlencoded({ extended: false }));
+
 // logging
 if (process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'));
@@ -28,6 +31,17 @@ app.use(expressLayoutes);
 app.set('view engine', 'ejs');
 app.set('layout', './layouts/mainLayout.ejs');
 app.set('views', 'views');
+
+//* session
+app.use(session({
+    secret: 'should be env var',
+    cookie: {maxAge: 60000},
+    resave: false,
+    saveUninitialized: false,
+}));
+
+//* flash
+app.use(flash());
 
 //* statics
 app.use(express.static(path.join(__dirname, 'public')));
