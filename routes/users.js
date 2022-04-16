@@ -9,6 +9,10 @@ const router = new Router();
 //  @route   Get /users/login
 router.get('/login', userController.login);
 
+//  @desc    Login Handle
+//  @route   POST /users/login
+router.post('/login', userController.handleLogin);
+
 
 //  @desc    Registration Page
 //  @route   Get /users/register
