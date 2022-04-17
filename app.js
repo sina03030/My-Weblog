@@ -9,6 +9,7 @@ const session = require('express-session');
 const passport = require('passport');
 
 const connectDB = require('./config/db');
+const auth = require('./middlewares/auth');
 
 // setting config.env files to system environemt variables
 dotEnv.config({ path: "./config/config.env" });
@@ -39,7 +40,7 @@ app.set('views', 'views');
 //* session
 app.use(session({
     secret: 'should be env var',
-    cookie: {maxAge: 60000},
+    cookie: { maxAge: 1000000 },
     resave: false,
     saveUninitialized: false,
 }));
@@ -56,12 +57,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //* routes
 app.use(require('./routes/blog'));
-app.use('/dashboard', require('./routes/dashboard'));
+app.use('/dashboard', auth.authenticated, require('./routes/dashboard'));
 app.use('/users', require('./routes/users'));
 
 //* 404
 app.use((req, res) => {
-    res.render('404',{pageTitle: 'page not found',path: '/404'});
+    res.render('404', { pageTitle: 'page not found', path: '/404' });
 });
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`server is up and runnig in ${process.env.NODE_ENV} on port ${PORT}`));

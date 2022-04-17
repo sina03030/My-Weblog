@@ -40,6 +40,12 @@ exports.createUser = async (req, res) => {
     }
 };
 
+exports.logout = (req, res)=> {
+    req.logout();
+    req.flash('success_msg', 'logged out');
+    res.redirect('/users/login');
+}
+
 exports.login = (req, res) => {
     res.render('login', { pageTitle: 'login page', path: '/login', message: req.flash('success_msg'), error: req.flash('error'),});
 }
@@ -47,7 +53,7 @@ exports.login = (req, res) => {
 exports.handleLogin = (req, res, next) => {
     passport.authenticate('local', {
         successRedirect: '/dashboard',
-        failureRedirect: '/user/login',
+        failureRedirect: '/users/login',
         failureFlash: true,
     })(req, res, next);
 }
