@@ -1,5 +1,9 @@
 const { Schema, model } = require('mongoose');
+const bcryptjs = require('bcryptjs');
+
 const {userValidation} = require('./secure/user-validation');
+
+
 const userSchema = new Schema({
     fullname: {
         type: String,
@@ -27,6 +31,20 @@ const userSchema = new Schema({
 userSchema.statics.userValidation = function (body) {
     return userValidation.validate(body, { abortEarly: false });
 }
+
+userSchema.pre('save', function(next){
+    console.log('save called in User.js line 36');
+    let user = this;
+
+    if(!user.isModified('password')) return next();
+
+    bcryptjs.hash(user.password, 10, (err, hash)=>{
+        if(err) return next(err);
+
+        user.password = hash;
+        next();
+    });
+});
 
 const User = model('User', userSchema);
 
