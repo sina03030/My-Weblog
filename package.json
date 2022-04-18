@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "cross-env NODE_ENV=production node app.js",
-    "dev": "cross-env NODE_ENV=development nodemon app.js -e js,ejs"
+    "dev": "cross-env NODE_ENV=development DEBUG=app.js nodemon app.js -e js,ejs"
   },
   "keywords": [],
   "author": "Sina Hejazi",
@@ -13,6 +13,8 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "connect-flash": "^0.1.1",
+    "connect-mongo": "^4.6.0",
+    "debug": "^4.3.4",
     "dotenv": "^16.0.0",
     "ejs": "^3.1.6",
     "express": "^4.17.3",
