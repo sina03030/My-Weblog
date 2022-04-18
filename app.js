@@ -12,6 +12,7 @@ const MongoStore = require('connect-mongo');
 
 const connectDB = require('./config/db');
 const auth = require('./middlewares/auth');
+const winston = require('./config/winstone');
 
 // setting config.env files to system environemt variables
 dotEnv.config({ path: "./config/config.env" });
@@ -32,7 +33,7 @@ debug('body parser configed');
 
 // logging
 if (process.env.NODE_ENV === 'development') {
-    app.use(morgan('dev'));
+    app.use(morgan('combined', { stream: winston.stream }));
     debug('morgan logger configed for developement')
 }
 
@@ -77,6 +78,6 @@ app.use((req, res) => {
     res.render('404', { pageTitle: 'page not found', path: '/404' });
 });
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => { 
+app.listen(PORT, () => {
     debug(`server is up and running on port ${PORT}`);
- });
+});
