@@ -18,10 +18,8 @@ exports.createUser = async (req, res) => {
             errArr.push({ message: 'user with this email already exist' });
             throw errArr;
         }
-        const passHash = bcryptjs.hashSync(password, salt);
-        await User.create({
-            email, fullname, password: passHash
-        });
+        // const passHash = bcryptjs.hashSync(password, salt);
+        await User.create({ email, fullname, password });
         req.flash('success_msg', 'Successfully registered');
         return res.redirect('/users/login');
     } catch (err) {
@@ -40,19 +38,30 @@ exports.createUser = async (req, res) => {
     }
 };
 
-exports.logout = (req, res)=> {
+exports.logout = (req, res) => {
     req.logout();
     req.flash('success_msg', 'logged out');
     res.redirect('/users/login');
 }
 
+exports.rememberMe = (req, res) => {
+    if (req.body.rememberMe) {
+        const hour = 1000 * 60 * 60;
+        req.session.cookie.originalMaxAge = 24 * hour;
+    } else {
+        req.session.cookie.expires = null;
+    }
+
+    res.redirect('/dashboard');
+}
+
 exports.login = (req, res) => {
-    res.render('login', { pageTitle: 'login page', path: '/login', message: req.flash('success_msg'), error: req.flash('error'),});
+    res.render('login', { pageTitle: 'login page', path: '/login', message: req.flash('success_msg'), error: req.flash('error'), });
 }
 
 exports.handleLogin = (req, res, next) => {
     passport.authenticate('local', {
-        successRedirect: '/dashboard',
+        // successRedirect: '/dashboard',
         failureRedirect: '/users/login',
         failureFlash: true,
     })(req, res, next);

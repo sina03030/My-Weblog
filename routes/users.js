@@ -23,6 +23,6 @@ router.post('/register', userController.createUser);
 
 //  @desc    Login Handle
 //  @route   POST /users/login
-router.post('/login', userController.handleLogin);
+router.post('/login', userController.handleLogin, userController.rememberMe);
 
 module.exports = router;
