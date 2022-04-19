@@ -8,7 +8,6 @@ exports.register = (req, res) => {
     res.render('register', { pageTitle: 'registeration page', path: '/register' });
 };
 
-const salt = 10;
 exports.createUser = async (req, res) => {
     const errArr = [];
     try {
