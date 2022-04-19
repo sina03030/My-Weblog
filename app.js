@@ -9,6 +9,7 @@ const flash = require('connect-flash');
 const session = require('express-session');
 const passport = require('passport');
 const MongoStore = require('connect-mongo');
+const bodyParser = require('body-parser');
 
 const connectDB = require('./config/db');
 const auth = require('./middlewares/auth');
@@ -28,7 +29,8 @@ debug('passport configed');
 const app = express();
 
 //* body parser
-app.use(express.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: false}));
 debug('body parser configed');
 
 // logging

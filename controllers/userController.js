@@ -1,7 +1,8 @@
+const passport = require('passport');
+const fetch = require('node-fetch');
+
 const User = require('../models/User');
 const { userValidation } = require('../models/secure/user-validation');
-const bcryptjs = require('bcryptjs');
-const passport = require('passport');
 
 exports.register = (req, res) => {
     res.render('register', { pageTitle: 'registeration page', path: '/register' });
@@ -59,10 +60,31 @@ exports.login = (req, res) => {
     res.render('login', { pageTitle: 'login page', path: '/login', message: req.flash('success_msg'), error: req.flash('error'), });
 }
 
-exports.handleLogin = (req, res, next) => {
-    passport.authenticate('local', {
-        // successRedirect: '/dashboard',
-        failureRedirect: '/users/login',
-        failureFlash: true,
-    })(req, res, next);
+exports.handleLogin = async (req, res, next) => {
+    const recaptchaResponse = req.body['g-recaptcha-response'];
+    if (!recaptchaResponse) {
+        req.flash('error', 'Are you a robot ? if not then do recaptcha');
+        return res.redirect('/users/login');
+    }
+    const verifyUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.CAPTCHA_SECRET}&response=${recaptchaResponse}`;
+    const response = await fetch(verifyUrl, {
+        method: 'post',
+        Headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+        }
+    });
+    
+    const json = await response.json();
+
+    if (json.success) {
+        passport.authenticate('local', {
+            // successRedirect: '/dashboard',
+            failureRedirect: '/users/login',
+            failureFlash: true,
+        })(req, res, next);
+    } else {
+        req.flash('error', 'Problem with recaptcha');
+        res.redirect('/users/login');
+    }
 }
