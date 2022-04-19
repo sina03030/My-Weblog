@@ -24,7 +24,7 @@
                                 <%= blog.title %>
                             </a></td>
                         <td>
-                            <%= blog.createdAt %>
+                            <%= formatDate(blog.createdAt) %>
                         </td>
                         <td> <span class="badge <%= blog.status === 'public' ? 'badge-success' : 'badge-warning' %> ">
                                 <%= blog.status %>

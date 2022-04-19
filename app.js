@@ -49,7 +49,7 @@ debug('views & layouts set');
 
 //* session
 app.use(session({
-    secret: 'should be env var',
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     store: MongoStore.create({ mongoUrl: process.env.MONGO_URL }),
@@ -76,9 +76,7 @@ app.use('/users', require('./routes/users'));
 debug('routes set');
 
 //* 404
-app.use((req, res) => {
-    res.render('404', { pageTitle: 'page not found', path: '/404' });
-});
+app.use(require('./controllers/errorController').get404);
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     debug(`server is up and running on port ${PORT}`);
