@@ -1,14 +1,12 @@
 <h3 class="mt-2 text-center">New Post</h3>
+<div class="w-50 mx-auto">
+    <%- include('../includes/validationErrors.ejs') %>
+</div>
 <div class="d-flex align-items-center justify-content-center">
     <form action="/dashboard/add-post" class="w-50" method="POST">
         <div class="form-group">
             <label for="title">Post title</label>
-            <input
-                type="text"
-                class="form-control w-50"
-                name="title"
-                id="title"
-            />
+            <input type="text" class="form-control w-50" name="title" id="title" />
         </div>
 
         <div class="form-group">

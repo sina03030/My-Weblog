@@ -39,8 +39,9 @@ exports.createUser = async (req, res) => {
 };
 
 exports.logout = (req, res) => {
+    req.session = null;
     req.logout();
-    req.flash('success_msg', 'logged out');
+    // req.flash('success_msg', 'logged out');
     res.redirect('/users/login');
 }
 

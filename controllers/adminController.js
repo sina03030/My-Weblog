@@ -29,15 +29,27 @@ exports.getAddPost = (req, res) => {
 }
 
 exports.createPost = async (req, res) => {
+    const errArr = [];
     try {
-        console.log(req.body);
+        await Blog.postValidation(req.body);
         await Blog.create({
             ...req.body,
             user: req.user.id,
         });
         res.redirect('/dashboard');
     } catch (err) {
+        // pushing errors to array 
+        try {
+            err.inner.forEach(element => errArr.push({ name: element.path, message: element.message, }));
+            err.errors.forEach(element => errArr.push({ name: '', message: element }));
+        } catch (err) { }
         console.log(err);
-        get500();
+        return res.render('private/addPost', {
+            pageTitle: 'New Post',
+            path: '/dashboard/add-post',
+            layout: './layouts/dashLayout',
+            fullname: req.user.fullname,
+            errors: errArr,
+        });
     }
 }
